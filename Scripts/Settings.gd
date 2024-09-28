@@ -1,5 +1,9 @@
 extends Node2D
 
+const ROM_SHA256 := "17ce077343c6133f8c9f2d6d6d9a4ab62c8cd2aa57c40aea1f490b4c8bb21d91"
+@onready var rom_picker_dialog := $FileDialog as FileDialog
+@onready var invalid_rom_dialog : = $InvalidRomDialog as AcceptDialog
+
 # note: i fucking hate myself for making enums this long. this is unreadable
 
 @onready var checkbuttons: Array[CheckButton] = [
@@ -63,3 +67,17 @@ func _on_crack(toggled_on): _on_shader_toggled(ShaderManager.ShaderType.SCREEN_C
 func _on_entire_camera(toggled_on): _on_shader_toggled(ShaderManager.ShaderType.BLOCK_CAMERA_MOVEMENT, toggled_on)
 func _on_cursor(toggled_on): _on_shader_toggled(ShaderManager.ShaderType.CURSOR_FOLLOW_ON, toggled_on)
 func _on_circle(toggled_on): _on_shader_toggled(ShaderManager.ShaderType.CIRCLE_FOLLOW_ON, toggled_on)
+
+
+func _on_file_dialog_file_selected(path: String) -> void:
+	var rom_file_sha256 := FileAccess.get_sha256(path)
+
+	if rom_file_sha256 != ROM_SHA256:
+		invalid_rom_dialog.popup_centered()
+		return
+
+	SM64Global.rom_filepath = path
+
+
+func _on_button_pressed() -> void:
+	rom_picker_dialog.visible = true

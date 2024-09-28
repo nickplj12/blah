@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://scu3pvp6we0w"]
+[gd_scene load_steps=5 format=3 uid="uid://scu3pvp6we0w"]
 
 [ext_resource type="Script" path="res://Scripts/TabsOverlayController.gd" id="1_tg2da"]
+[ext_resource type="AudioStream" uid="uid://n8slegxvm0y" path="res://sounds/cursor.mp3" id="2_f2igb"]
 
 [sub_resource type="Gradient" id="Gradient_2gpbi"]
 offsets = PackedFloat32Array(0, 0.5, 1)
@@ -32,3 +33,7 @@ offset_bottom = 1329.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 35
+
+[node name="scroll" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_f2igb")
+volume_db = 24.0

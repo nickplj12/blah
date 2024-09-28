@@ -31,14 +31,18 @@ func _input(event):
 	# ==== KEYBOARD ====
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_DOWN:
+			$scroll.play()
 			scroll_elements(1)
 		elif event.keycode == KEY_UP:
+			$scroll.play()
 			scroll_elements(-1)
 	# ====  MOUSE  ====
 	elif event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			$scroll.play()
 			scroll_elements(1)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			$scroll.play()
 			scroll_elements(-1)
 	# # ==== SHORTCUTS ====
 	if Input.is_action_just_pressed("tab_close"):
@@ -81,6 +85,7 @@ func update_active_element(previous_index):
 	$/root/GUI.switch_tab(current_index)
 
 func add_tab(url):
+	Utils.close_doom.emit()
 	var node = TABS_OVERLAY_ENTRY.instantiate()
 	var favicon = await Utils.fetch_favicon(url)
 	
@@ -102,7 +107,14 @@ func update_tab(url):
 	print(title)
 	node.change_to(favicon if favicon else DEFAULT_TEXTURES, title if title else "New Tab", url)
 
+func _process(_delta):
+	if Input.is_action_just_pressed("tab_close") and container.get_child_count() < 1:
+		print(container.get_child_count())
+		get_tree().quit()
+
 func close_tab():
+	Utils.close_doom.emit()
+	
 	var child_count = container.get_child_count()
 	
 	if child_count == 0:

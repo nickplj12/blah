@@ -8,6 +8,9 @@ extends Node
 @onready var welcome_screen = $/root/GUI/WelcomeScreen
 @onready var info = $/root/GUI/InfoScreen
 @onready var file_dialog = $/root/GUI/FileDialog
+var doom = preload("res://Scenes/doom.tscn")
+var doom_instance = null  
+var doom_instanced = false 
 
 var SAVED_PAGE
 
@@ -21,6 +24,17 @@ var user_data = {
 }
 
 func _ready():
+	Utils.doom_opened.connect(_on_doom_opened)
+	Utils.close_doom.connect(_close_doom)
+	
+	Utils.refresh_clicked.connect(_on_refresh_clicked)
+	Utils.forward_clicked.connect(_on_forward_clicked)
+	Utils.backward_clicked.connect(_on_backward_clicked)
+	Utils.info_clicked.connect(_on_info_clicked)
+	Utils.settings_clicked.connect(_on_settings_clicked)
+	Utils.search_clicked.connect(_on_search_clicked)
+	Utils.tabs_clicked.connect(_on_tabs_clicked)
+	
 	file_dialog.connect("file_selected", _dialog_file_selected)
 	non_fading_overlays.append(search_bar)
 	load_user_data()
@@ -35,7 +49,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("info"): toggle_overlay(info)
 	if Input.is_action_just_pressed("back"): gui.current_browser.previous_page()
 	if Input.is_action_just_pressed("forward"): gui.current_browser.next_page()
-	if Input.is_action_just_pressed("home"): gui.current_browser.load_url(gui.HOME_PAGE)
+	if Input.is_action_just_pressed("home"): gui.current_browser.load_url("file://" + ProjectSettings.globalize_path(gui.DEFAULT_PAGE))
 	if Input.is_action_just_pressed("refresh"): gui.current_browser.reload()
 	if Input.is_action_just_pressed("save_page"): file_dialog.show()
 	if Input.is_action_just_pressed("new"):
@@ -47,7 +61,27 @@ func toggle_input():
 		welcome_screen.show()
 	else:
 		welcome_screen.hide()
-	
+
+
+func _on_refresh_clicked(): gui.current_browser.reload()
+func _on_forward_clicked(): gui.current_browser.next_page()
+func _on_backward_clicked(): gui.current_browser.previous_page()
+func _on_info_clicked(): toggle_overlay(info)
+func _on_settings_clicked(): toggle_overlay(settings)
+func _on_search_clicked(): toggle_overlay(search_bar)
+func _on_tabs_clicked(): toggle_overlay(tabs_overlay)
+
+func _on_doom_opened():
+	if not doom_instanced:
+		doom_instance = doom.instantiate()
+		add_child(doom_instance)
+		doom_instanced = true
+
+func _close_doom():
+	if doom_instance != null:
+		doom_instance.queue_free()
+		doom_instance = null
+	doom_instanced = false
 
 func toggle_overlay(new_overlay):
 	var tween = create_tween()

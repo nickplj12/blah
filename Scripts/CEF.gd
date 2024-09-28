@@ -2,8 +2,9 @@ extends Control
 
 # URL
 const DEFAULT_PAGE = "user://default_page.html"
+var doom = preload("res://Scenes/doom.tscn")
 #const SAVED_PAGE = "user://saved_page.html"
-const HOME_PAGE = "https://google.com"
+const HOME_PAGE = "user://default_page.html"
 const RADIO_PAGE = "http://streaming.radio.co/s9378c22ee/listen"
 
 var browsers = {}
@@ -18,6 +19,10 @@ var is_loading_blocked = false
 @onready var mouse_pressed : bool = false
 @onready var tabs_overlay = $TabsOverlay
 
+var mario = preload("res://Scenes/marioScene.tscn")
+var mario_instance = null  
+var mario_instanced = false
+
 @onready var nodes_to_resize: Array[Node] = [
 	$BlurOverlay,
 	$BlurOverlay/ColorOverlay,
@@ -27,9 +32,38 @@ var is_loading_blocked = false
 	$CanvasLayer/RandomAssHighlight
 ]
 
+func _spawn_mario():
+	if not mario_instanced:
+		mario_instance = mario.instantiate()
+		add_child(mario_instance)
+		mario_instanced = true
+
+func _kill_mario():
+	if mario_instance != null:
+		mario_instance.queue_free()
+		mario_instance = null
+	mario_instanced = false
+
 func create_default_page():
 	var file = FileAccess.open(DEFAULT_PAGE, FileAccess.WRITE)
-	file.store_string("<html><head><title>New Tab</title></head><body bgcolor=\"white\"><h2>Welcome to gdCEF !</h2><p>This a generated page.</p></body></html>")
+	file.store_string("""<html>
+<head>
+<style>
+body, h1, h2, h3, h4, h5, h6  {
+	font-family: "Segoe UI", Arial, sans-serif;
+}
+.center {
+	text-align: center;
+}
+</style>
+<title>BLAH! Start Page</title>
+</head>
+<body bgcolor=\"white\" class=\"center\">
+<h2>Welcome to BLAH! v1.0</h2>
+<p>You can click the 🔍 icon on the topbar to begin searching!</p>
+<p>Based off Bussin Wattesigma by FaceDev</p>
+</body>
+</html>""")
 	file.close()
 	pass
 
@@ -84,12 +118,16 @@ func _on_page_failed_loading(err_code, err_msg, node):
 	serve_error(err_code, err_msg, node)
 
 func serve_error(err_code, err_msg, node):
-	var html = "<html><body bgcolor=\"white\">" \
-		+ "<h2>Failed to load URL " + node.get_url() + "!</h2>" \
-		+ "<p>Error code: " + str(err_code) + "</p>" \
-		+ "<p>Error message: " + err_msg + "!</p>" \
-		+ "</body></html>"
-	node.load_data_uri(html, "text/html")
+	$error.visible = true
+	$error.title = "Failed to load URL " + node.get_url() + "!"
+	$error.dialog_text = "Error code: " + str(err_code) + "\n" + err_msg
+	
+	#var html = "<html><body bgcolor=\"white\">" \
+	#	+ "<h2>Failed to load URL " + node.get_url() + "!</h2>" \
+	#	+ "<p>Error code: " + str(err_code) + "</p>" \
+	#	+ "<p>Error message: " + err_msg + "!</p>" \
+	#	+ "</body></html>"
+	#node.load_data_uri(html, "text/html")
 
 func generate_browser_id():
 	browser_id_counter += 1
@@ -122,11 +160,11 @@ func get_browser(browser_id):
 	if not $CEF.is_alive():
 		return null
 	if browser_id == null:
-		$Panel/VBox/HBox2/Info.set_text("Invalid browser ID: null")
+		print("Invalid browser ID: null")
 		return null
 	var browser = browsers.get(browser_id)
 	if browser == null:
-		$Panel/VBox/HBox2/Info.set_text("Unknown browser with ID '" + str(browser_id) + "'")
+		print("Unknown browser with ID '" + str(browser_id) + "'")
 		return null
 	return browser
 
@@ -236,6 +274,10 @@ func _on_texture_rect_resized():
 	search_bar.position.y = (panel_size.y - search_bar_size.y) / 2
 
 func _ready():
+	Utils.spawn_mario.connect(_spawn_mario)
+	Utils.kill_mario.connect(_kill_mario)
+	get_window().min_size = Vector2i(600, 400)
+	
 	var color = Color.from_string(ControlsSingleton.user_data["color"], Color.BLACK)
 	Utils.change_main_color(color)
 	
@@ -251,7 +293,7 @@ func _ready():
 	print("CEF version: " + $CEF.get_full_version())
 
 	# Wait one frame for the texture rect to get its size
-	current_browser = await create_browser(HOME_PAGE)
+	current_browser = await create_browser("file://" + ProjectSettings.globalize_path(DEFAULT_PAGE))
 
 func _on_routing_audio_pressed():
 	if current_browser == null:

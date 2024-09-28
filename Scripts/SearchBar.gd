@@ -32,7 +32,21 @@ func _on_text_edit_text_changed():
 func goto():
 	var url = get_url_from_search()
 	
-	$/root/GUI.current_browser.load_url(url)
+	if $TextEdit.text == "blah:doom":
+		$/root/GUI.current_browser.load_url("file://" + ProjectSettings.globalize_path("user://default_page.html"))
+		Utils.doom_opened.emit()
+	elif $TextEdit.text == "blah:mario":
+		if SM64Global.rom_filepath == "":
+			$/root/GUI/error.title = "blah:mario error!"
+			$/root/GUI/error.dialog_text = "You need to set a SM64 US ROM first!!"
+			$/root/GUI/error.visible = true
+		else:
+			Utils.spawn_mario.emit()
+	elif $TextEdit.text == "blah:killmario":
+		Utils.kill_mario.emit()
+	else:
+		Utils.close_doom.emit()
+		$/root/GUI.current_browser.load_url(url)
 	ControlsSingleton.toggle_overlay(self)
 	text_edit.clear()
 

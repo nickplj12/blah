@@ -1,5 +1,19 @@
 extends Node
 
+signal refresh_clicked
+signal forward_clicked
+signal backward_clicked
+signal info_clicked
+signal settings_clicked
+signal search_clicked
+signal tabs_clicked
+
+signal doom_opened
+signal close_doom
+
+signal spawn_mario
+signal kill_mario
+
 var google_url = "https://s2.googleusercontent.com/s2/favicons?domain_url={{DOMAIN}}"
 @onready var color_overlay: ColorRect = $/root/GUI/BlurOverlay/ColorOverlay
 @onready var tabs_overlay: Control = $/root/GUI/TabsOverlay

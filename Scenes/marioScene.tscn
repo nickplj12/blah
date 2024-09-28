@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbvcxpuqktm08"]
+
+[ext_resource type="Script" path="res://Scripts/mario_scene.gd" id="1_67lrk"]
+[ext_resource type="Script" path="res://addons/libsm64-godot/mario/sm64_mario.gd" id="1_w031v"]
+[ext_resource type="Script" path="res://addons/libsm64-godot/handlers/sm64_static_surfaces_handler.gd" id="3_uupjf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jjhcw"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_311gj"]
+material = SubResource("StandardMaterial3D_jjhcw")
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_67lrk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["libsm64_static_surfaces"]]
+transform = Transform3D(50, 0, 0, 0, 0.545, 0, 0, 0, 50, 0, 0, -21.7502)
+mesh = SubResource("BoxMesh_311gj")
+
+[node name="SM64Mario" type="Node3D" parent="." node_paths=PackedStringArray("camera") groups=["libsm64_mario"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.33902, 0)
+script = ExtResource("1_w031v")
+camera = NodePath("../Camera3D")
+stick_left = &"a"
+stick_right = &"d"
+stick_up = &"w"
+stick_down = &"s"
+input_a = &"marioa"
+input_b = &"mariob"
+input_z = &"marioz"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="SM64Mario"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.33902, 0)
+omni_range = 4096.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35923, 4.59522)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 7.79157, 0)
+light_energy = 2.0
+
+[node name="SM64StaticSurfaceHandler" type="Node" parent="."]
+script = ExtResource("3_uupjf")
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+position = Vector2i(265, 50)
+size = Vector2i(600, 500)
+ok_button_text = "Open"
+dialog_hide_on_ok = true
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.n64", "*.z64")
+
+[node name="InvalidRomDialog" type="AcceptDialog" parent="."]
+auto_translate_mode = 1
+title = "blah:mario"
+position = Vector2i(420, 190)
+size = Vector2i(300, 200)
+dialog_text = "Invalid ROM!"
+
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

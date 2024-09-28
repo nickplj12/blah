@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cir8rv3babeax"]
+[gd_scene load_steps=5 format=3 uid="uid://cir8rv3babeax"]
 
 [ext_resource type="Texture2D" uid="uid://gr6vfee0xn65" path="res://Assets/Misc/noshit.png" id="1_ae8kg"]
 [ext_resource type="FontFile" uid="uid://b3l7o8f44t2or" path="res://Assets/Fonts/BaskervvilleSC-Regular.ttf" id="1_jn0xl"]
 [ext_resource type="Script" path="res://Scripts/InfoScreen.gd" id="1_kwn3w"]
+[ext_resource type="AudioStream" uid="uid://svc3tnmacyxt" path="res://Assets/blah.ogg" id="4_dg36h"]
 
 [node name="WelcomeScreen" type="Node2D"]
 script = ExtResource("1_kwn3w")
@@ -85,21 +86,56 @@ offset_top = 563.0
 offset_right = 195.0
 offset_bottom = 584.0
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = 253.0
-offset_top = 37.0
-offset_right = 498.0
-offset_bottom = 72.0
-color = Color(0, 0, 0, 1)
+[node name="ColorRect15" type="ColorRect" parent="."]
+offset_left = 432.0
+offset_top = 410.0
+offset_right = 528.0
+offset_bottom = 434.0
+
+[node name="ColorRect16" type="ColorRect" parent="."]
+offset_left = 432.0
+offset_top = 437.0
+offset_right = 531.0
+offset_bottom = 460.0
+
+[node name="ColorRect17" type="ColorRect" parent="."]
+offset_left = 432.0
+offset_top = 465.0
+offset_right = 555.0
+offset_bottom = 486.0
+
+[node name="ColorRect18" type="ColorRect" parent="."]
+offset_left = 711.0
+offset_top = 465.0
+offset_right = 819.0
+offset_bottom = 486.0
+
+[node name="ColorRect19" type="ColorRect" parent="."]
+offset_left = 711.0
+offset_top = 441.0
+offset_right = 726.0
+offset_bottom = 462.0
+
+[node name="ColorRect20" type="ColorRect" parent="."]
+offset_left = 711.0
+offset_top = 416.0
+offset_right = 765.0
+offset_bottom = 435.0
+
+[node name="ColorRect21" type="ColorRect" parent="."]
+offset_left = 711.0
+offset_top = 390.0
+offset_right = 765.0
+offset_bottom = 410.0
 
 [node name="Label" type="Label" parent="."]
-offset_left = 106.0
-offset_top = 36.0
-offset_right = 956.0
-offset_bottom = 113.0
+offset_left = 324.0
+offset_top = 74.0
+offset_right = 1174.0
+offset_bottom = 151.0
 scale = Vector2(0.445, 0.445)
 theme_override_font_sizes/font_size = 56
-text = "Welcome to Bussin Wattesigma!"
+text = "Welcome to          V1.0"
 
 [node name="Label2" type="Label" parent="."]
 offset_left = 113.0
@@ -111,7 +147,6 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 105
 theme_override_font_sizes/font_size = 56
 text = "shortcuts:"
-metadata/_edit_lock_ = true
 
 [node name="Label3" type="Label" parent="."]
 offset_left = 129.0
@@ -137,25 +172,66 @@ text = "- CTRL ALT A - go back
 - CTRL L - search
 - CTRL S - settings
 - CTRL I - this info screen"
-metadata/_edit_lock_ = true
+
+[node name="Label8" type="Label" parent="."]
+offset_left = 424.0
+offset_top = 383.0
+offset_right = 891.0
+offset_bottom = 1122.0
+scale = Vector2(0.445, 0.445)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 40
+text = "## BLAH! PAGES ##
+- blah:doom - play doom
+- blah:mario - spawn a mario
+- blah:killmario - kill your mario"
+
+[node name="Label10" type="Label" parent="."]
+offset_left = 703.0
+offset_top = 361.0
+offset_right = 1306.0
+offset_bottom = 1100.0
+scale = Vector2(0.445, 0.445)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 40
+text = "## blah:mario CONTROLS ##
+- WASD - move
+- SHIFT - Z/crouch
+- L - A/jump
+- SEMICOLON - B/attack"
+
+[node name="Label9" type="Label" parent="."]
+offset_left = 555.0
+offset_top = 454.0
+offset_right = 882.0
+offset_bottom = 482.0
+scale = Vector2(0.445, 0.445)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 20
+text = "(you need a sm64 US rom for this)"
 
 [node name="Label4" type="Label" parent="."]
-offset_left = 107.0
-offset_top = 71.0
-offset_right = 1259.0
-offset_bottom = 235.0
+offset_left = 305.0
+offset_top = 112.0
+offset_right = 901.0
+offset_bottom = 276.0
 scale = Vector2(0.445, 0.445)
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 20
 theme_override_font_sizes/font_size = 31
-text = "made by facedev"
+text = "made by chorgle
+bussin wattesigma made by facedev"
+horizontal_alignment = 1
 
 [node name="Label5" type="Label" parent="."]
-offset_left = 108.0
-offset_top = 96.0
-offset_right = 1260.0
-offset_bottom = 260.0
+offset_left = 317.0
+offset_top = 158.0
+offset_right = 1469.0
+offset_bottom = 322.0
 scale = Vector2(0.445, 0.445)
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -164,10 +240,10 @@ theme_override_font_sizes/font_size = 31
 text = "special thanks to"
 
 [node name="LinkButton" type="LinkButton" parent="."]
-offset_left = 226.0
-offset_top = 92.0
-offset_right = 268.0
-offset_bottom = 132.0
+offset_left = 435.0
+offset_top = 154.0
+offset_right = 477.0
+offset_bottom = 194.0
 text = "gdcef"
 uri = "https://github.com/Lecrapouille/gdcef"
 
@@ -200,7 +276,7 @@ theme_override_font_sizes/font_size = 51
 text = "CHECK OUT"
 
 [node name="Noshit" type="Sprite2D" parent="."]
-position = Vector2(757, 448)
+position = Vector2(1042, 280)
 texture = ExtResource("1_ae8kg")
 
 [node name="Label7" type="Label" parent="."]
@@ -218,3 +294,16 @@ Rest in peace, Lyntr.
 Signed,
 Face, in the name of The Users Who Knew You (For About 96 Hours)"
 autowrap_mode = 2
+
+[node name="Button" type="Button" parent="."]
+offset_left = 472.0
+offset_top = 78.0
+offset_right = 527.0
+offset_bottom = 109.0
+text = "BLAH!"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_dg36h")
+volume_db = 24.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
