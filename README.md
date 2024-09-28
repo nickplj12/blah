@@ -1,6 +1,6 @@
 # The BLAH! Web Browser
 
-<!--<img style="width: 128px; height: 128px" src="Website\static\favicon.png" />-->
+<img style="width: 128px; height: 128px" src="blah.png" />
 
 
 
