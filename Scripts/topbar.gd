@@ -3,6 +3,9 @@ extends PanelContainer
 var moving := false
 var mouse_start: Vector2i
 
+func _ready() -> void:
+	set("theme_override_styles/panel/bg_color", Utils.MAIN_COLOR)
+
 func _on_minimize_pressed() -> void:
 	get_window().set_mode(Window.MODE_MINIMIZED)
 
