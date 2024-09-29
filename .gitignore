@@ -1,4 +1,4 @@
 cef_artifacts
 .godot
 Builds
-sm64.z64
+*.z64
